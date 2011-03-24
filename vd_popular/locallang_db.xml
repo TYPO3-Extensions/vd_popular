@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>database</type>
+		<description>Language labels for database tables/fields belonging to extension 'vd_popular'</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="tx_vdpopular_counter">Daily visit counter</label>
+			<label index="tx_vdpopular_counter.counter">Counter</label>
+			<label index="tx_vdpopular_counter.date">Date</label>
+			<label index="tt_content.list_type_pi2">Popular page list</label>
+			
+			<label index="vd_popular.flexform_pi2.s_main">Configuration</label>
+			<label index="vd_popular.flexform_pi2.excludedPages">Excluded pages</label>
+			<label index="vd_popular.flexform_pi2.pagesToShow">Number of page to show (max. 100)</label>
+			<label index="vd_popular.flexform_pi2.minVisits">Minimum number of visits for a page to be considered as popular</label>
+		</languageKey>
+		<languageKey index="fr" type="array">
+			<label index="tx_vdpopular_counter">Compteur de visite journalier</label>
+			<label index="tx_vdpopular_counter.counter">Compteur</label>
+			<label index="tx_vdpopular_counter.date">Date</label>
+			<label index="tt_content.list_type_pi2">Liste des page populaires</label>
+
+			<label index="vd_popular.flexform_pi2.s_main">Configuration</label>
+			<label index="vd_popular.flexform_pi2.excludedPages">Pages exclues</label>
+			<label index="vd_popular.flexform_pi2.pagesToShow">Nombre de page a afficher (max. 100)</label>
+			<label index="vd_popular.flexform_pi2.minVisits">Minimum de visites pour qu'une page soit populaire</label>
+		</languageKey>
+	</data>
+</T3locallang>

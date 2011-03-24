@@ -1,0 +1,2 @@
+  # cat=basic/dims/60; type=int [0-30]; label= Days of statistics. To avoid a DataBase explosion, the maximum of days is set to 30.
+olderThan = 7
