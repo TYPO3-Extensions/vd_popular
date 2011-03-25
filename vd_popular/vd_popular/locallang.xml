@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for extension 'vd_popular'</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="pi2_title">Popular page list</label>
+			<label index="pi2_plus_wiz_description">List of the most popular pages</label>
+		</languageKey>
+		<languageKey index="fr" type="array">
+			<label index="pi2_title">Liste des page populaires</label>
+			<label index="pi2_plus_wiz_description">Liste des pages populaires</label>
+		</languageKey>
+	</data>
+</T3locallang>

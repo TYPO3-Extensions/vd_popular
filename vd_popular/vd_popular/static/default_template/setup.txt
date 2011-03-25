@@ -1,0 +1,23 @@
+# pi1 : counter
+# Place the counter on every pages. The number following "page" must not already be used on the site
+#page.1000 < plugin.tx_vdpopular_pi1
+
+
+# pi2 : view
+plugin.tx_vdpopular_pi2 {	
+
+	# Page to exclude
+	excludedPages = {$plugin.tx_vdpopular_pi2.excludedPages}
+	
+	# Number of page to show
+	pagesToShow = {$plugin.tx_vdpopular_pi2.pagesToShow}
+	
+	# Depth to which we want to show the pages 
+	depth = {$plugin.tx_vdpopular_pi2.depth}
+
+	# Minimum number of visits for a page to be considered as popular
+	minVisits = {$plugin.tx_vdpopular_pi2.minVisits}
+	
+	# Template HTML
+	templateFile = {$plugin.tx_vdpopular_pi2.templateFile}
+}
