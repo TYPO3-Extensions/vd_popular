@@ -1,18 +1,14 @@
-plugin.tx_vdpopular_pi2 {
-
-	# cat=vd_popular/ctext/0; type=string; label=Excluded pages.
-	excludedPages = 
+# cat=vd_popular/ctext/0; type=string; label=Excluded pages.
+plugin.tx_vdpopular_pi2.excludedPages = 
 	
-	# cat=vd_popular/ctext/0; type=integer; label=Number of popular pages to show.
-	pagesToShow = 5
+# cat=vd_popular/ctext/0; type=int[1-100]; label=Number of popular pages to show.
+plugin.tx_vdpopular_pi2.pagesToShow = 5
 	
-	# cat=vd_popular/ctext/0; type=integer; label=Depth of the tree.
-	depth = 10
+# cat=vd_popular/ctext/0; type=int+; label=Depth of the tree.
+plugin.tx_vdpopular_pi2.depth = 10
 	
-	# cat=vd_popular/ctext/0; type=integer; label=Minimum number of visits for a page to be considered as popular
-	minVisits = 0
+# cat=vd_popular/ctext/0; type=int+; label=Minimum number of visits for a page to be considered as popular
+plugin.tx_vdpopular_pi2.minVisits = 0
 	
-	# cat=vd_popular/ctext/0; type=string; label=HTML template
-	templateFile = EXT:vd_popular/res/pi2_template.html
-
-}
+# cat=vd_popular/ctext/0; type=string; label=HTML template
+plugin.tx_vdpopular_pi2.templateFile = EXT:vd_popular/res/pi2_template.html

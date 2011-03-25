@@ -56,7 +56,7 @@ class tx_vdpopular_pi2 extends tslib_pibase {
 		$this->conf = $conf;
 		$this->pi_setPiVarDefaults();
 		$this->pi_loadLL();
-		$this->pi_USER_INT_obj = 1;	// Configuring so caching is not expected. This value means that no cHash params are ever set. We do this, because it's a USER_INT object!
+		//$this->pi_USER_INT_obj = 1;	// Configuring so caching is not expected. This value means that no cHash params are ever set. We do this, because it's a USER_INT object!
 
 		/*
 		 * Flexform
@@ -97,6 +97,12 @@ class tx_vdpopular_pi2 extends tslib_pibase {
 			$olderThan = 30;
 		} 
 
+		/*
+		 * SQL
+		 */
+		$query = 
+		$res = $GLOBALS['TYPO3_DB']->sql_query($query);
+		
 
 		/*
 		 * Function calls
@@ -112,8 +118,11 @@ class tx_vdpopular_pi2 extends tslib_pibase {
 		$content.= $this->viewCounterResult($visitedPages);
 		// delete old records
 		$this->deleteOldRecords($olderThan);
+		
 
 
+		
+		
 		/*
 		 * Returns
 		 */
@@ -210,6 +219,7 @@ class tx_vdpopular_pi2 extends tslib_pibase {
 		$pagestoshow = intval($this->conf['pagesToShow']);
 
 		//hard-coded security to avoid to view > 100 pages
+		//if the value change, don t forget to change the max value in static/default_template/constants.txt and flexform_ds_pi2.xml
 		$pagestoshow = $pagestoshow > 100 ? 100 : $pagestoshow;
 
 		$countPagetoShow = 0;
@@ -344,7 +354,7 @@ class tx_vdpopular_pi2 extends tslib_pibase {
 		return $value;
 	}
 
-} // en main
+} // main [end]
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/vd_popular/pi2/class.tx_vdpopular_pi2.php'])	{
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/vd_popular/pi2/class.tx_vdpopular_pi2.php']);

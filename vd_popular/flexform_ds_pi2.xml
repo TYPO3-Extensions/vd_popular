@@ -10,7 +10,6 @@
                 </TCEforms>
                 <type>array</type>
                 <el>
-                   
 				    <excludedPages>
                         <TCEforms>
                             <exclude>1</exclude>
@@ -26,7 +25,6 @@
                             </config>
                         </TCEforms>
                     </excludedPages>
-					
 					<pagesToShow>
 						<TCEforms>
 						<label>LLL:EXT:vd_popular/locallang_db.xml:vd_popular.flexform_pi2.pagesToShow</label>
@@ -34,10 +32,14 @@
 							<type>input</type>
 							<eval>num</eval>
 							<size>5</size>
+							<max>3</max>
+							<range>
+								<lower>0</lower>
+								<upper>100</upper>
+							</range>
 						</config>
 						</TCEforms>
 					</pagesToShow>
-					
 					<minVisits>
 						<TCEforms>
 						<label>LLL:EXT:vd_popular/locallang_db.xml:vd_popular.flexform_pi2.minVisits</label>
@@ -48,7 +50,6 @@
 						</config>
 						</TCEforms>
 					</minVisits>
-                
 				</el>
             </ROOT>
         </sDEF>
