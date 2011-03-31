@@ -72,8 +72,7 @@ class tx_vdpopular_pi1 extends tslib_pibase {
 		$date = date(U);
 		
 		// not exclude pages
-		if( in_array($pid, explode(',', $this->conf['excludePages']))==0 )
-		{
+		if( in_array($pid, explode(',', $this->conf['excludePages']))==0 ) {
 
 			// refresh statistic
 			// one records per page per day

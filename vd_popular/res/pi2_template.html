@@ -3,16 +3,45 @@
 		<title>pi1 plugin template file</title>
 	</head>
 	<body>
+		<h1>List of markers</h1>
+		<ul>
+			<li>LIST : Begin & end of the page list
+			<ul>
+				<li>ITEM : Begin & end of the items 
+				<ul>
+					<li>PAGE_TITLE : Link to the page. The text is the name of the page</li>
+					<li>PAGE_NAVTITLE : Link to the page. The text is the navigation name of the page</li>
+					<li>PAGE_DESCRIPTION : Page description</li>
+					<li>LINK : Link wrap</li>
+					<li>COUNTER : Number of visits for the recording perdiod define in the extensions settings</li>
+					<li>TEXT1 : Some text (-> pi2/locallang.xml)</li>
+					<li>TEXT2 : Some text (-> pi2/locallang.xml)</li>
+				</ul>
+				</li>
+			</ul>
+			</li>
+			<li>NO_RECORDS : Begin & end of the message if there is no records
+				<ul>
+					<li>NO_RECORDS_TEXT : Text message if no records (-> pi2/locallang.xml)</li>
+				</ul>
+			</li>
+		</ul>
+		
 		<!-- ###LIST### begin -->
 		<ol class="popular-pi1">
 			<!-- ###ITEM### begin -->
 			<li>
-				<strong>###PAGE###</strong> : ###COUNTER###
-				<br />
-				###DESCRIPTION###
+				<!--###LINK###-->###PAGE_TITLE###<!--###LINK###--> ###TEXT1### ###COUNTER### ###TEXT2### <br />
+				###PAGE_DESCRIPTION###
 			</li>
 			<!-- ###ITEM### end -->
 		</ol>
 		<!-- ###LIST### end -->
+		
+		<!-- ###NO_RECORDS### begin -->
+		<ol class="popular-pi1">
+			<li>###NO_RECORDS_TEXT###</li>
+		</ol>
+		<!-- ###NO_RECORDS### end -->
 	</body>
 </html>

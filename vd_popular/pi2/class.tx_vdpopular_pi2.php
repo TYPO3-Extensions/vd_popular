@@ -56,7 +56,6 @@ class tx_vdpopular_pi2 extends tslib_pibase {
 		$this->conf = $conf;
 		$this->pi_setPiVarDefaults();
 		$this->pi_loadLL();
-		//$this->pi_USER_INT_obj = 1;	// Configuring so caching is not expected. This value means that no cHash params are ever set. We do this, because it's a USER_INT object!
 
 		/*
 		 * Flexform
@@ -89,20 +88,13 @@ class tx_vdpopular_pi2 extends tslib_pibase {
 
 		//get startinPoints pages
 		$pidList = $this->pi_getPidList($this->cObj->data['pages'], $this->cObj->data['recursive']);
+		
 		//day to keep statistics
 		$olderThan = intval($this->extConf['olderThan']);
-		
-		// security to avoid DB explosion
+		// security to avoid DB explosion. Max statistics day is 30 days.
 		if ($olderThan > 30) {
 			$olderThan = 30;
-		} 
-
-		/*
-		 * SQL
-		 */
-		$query = 
-		$res = $GLOBALS['TYPO3_DB']->sql_query($query);
-		
+		} 		
 
 		/*
 		 * Function calls
@@ -118,10 +110,6 @@ class tx_vdpopular_pi2 extends tslib_pibase {
 		$content.= $this->viewCounterResult($visitedPages);
 		// delete old records
 		$this->deleteOldRecords($olderThan);
-		
-
-
-		
 		
 		/*
 		 * Returns
@@ -140,7 +128,7 @@ class tx_vdpopular_pi2 extends tslib_pibase {
 
 		$finalTree = array();
 
-		//check if starting point est vide
+		//check if starting point is empty
 		if (!$pidList) {
 			return $finalTree;
 		}
@@ -154,15 +142,15 @@ class tx_vdpopular_pi2 extends tslib_pibase {
 			//get childrens
 			$tree = t3lib_div::makeInstance('t3lib_pageTree');
 			$tree->init(t3lib_BEfunc::deleteClause('pages'));
-
+			
 			//add nav title
-			$tree->addField('nav_title',1);
+			//$tree->addField('nav_title',1);
 
 			//get value of the Typoscript
 			$depth = intval($this->conf['depth']);
 			$c = $tree->getTree($startingPoint, $depth, '');
 
-			//ajout du startingPoint dans le tree
+			//add startingPoint in the tree
 			$temp['row'] = $startingPointRecord;
 			$tree->tree[] = $temp;
 			$finalTree = array_merge ($finalTree,$tree->tree);
@@ -260,7 +248,7 @@ class tx_vdpopular_pi2 extends tslib_pibase {
 		$counters = array();
 
 		// query to get the list of page
-		$fields		= 'p.uid, p.title, p.description ,vdpop1.pid, vdpop1.totalCounter';
+		$fields		= 'p.uid, p.title, p.nav_title, p.description ,vdpop1.pid, vdpop1.totalCounter';
 		$table 		= 'pages AS p,
 						(SELECT vdpop.pid, SUM(vdpop.counter) AS totalCounter FROM tx_vdpopular_counter vdpop GROUP BY vdpop.pid HAVING SUM(vdpop.counter) > '.$minCounter.') 
 						AS vdpop1';
@@ -272,7 +260,7 @@ class tx_vdpopular_pi2 extends tslib_pibase {
 		$counterRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery($fields,$table,$where,$groupBy,$orderBy,$limit);
 
 		if ($counterRes == true) {
-			// on récupère tout le tableau
+			// retrieves the entire array
 			while($row = mysql_fetch_assoc($counterRes)){
 				$counters[]=$row;
 			}
@@ -292,31 +280,54 @@ class tx_vdpopular_pi2 extends tslib_pibase {
 		// Get template content
 		$templateCode = $this->cObj->fileResource($this->conf['templateFile']);
 		
-		// Extract surounded by ###LIST###
-		$resultsList = 	$this->cObj->getSubpart($templateCode,'###LIST###');
+		// Configure typolink functionality for use
+		$typolinkConf = $this->typolinkConf;
 		
-		// Extract parts surounded by ###ITEM###
-		$resultItem = 	$this->cObj->getSubpart($templateCode,'###ITEM###');
 		$fieldList = '';
 		
 		if (sizeof($results) <= 0) {
-			$fieldList = "<li>no records</li>";
+			
+			// Extract surounded by ###LIST###
+			$subpart = $this->cObj->getSubpart($templateCode, '###NO_RECORDS###');
+			
+			// Fill marker array
+			$markerArray['###NO_RECORDS_TEXT###'] = $this->pi_getLL('NO_RECORDS_TEXT');
+			
+			$output = $this->cObj->substituteMarkerArray($subpart, $markerArray);
+			
 		} else {
 		
+			// Extract surounded by ###LIST###
+			$resultsList = 	$this->cObj->getSubpart($templateCode,'###LIST###');
+		
+			// Extract parts surounded by ###ITEM###
+			$resultItem = 	$this->cObj->getSubpart($templateCode,'###ITEM###');
+			
 			// Loop
 			foreach ($results as $row => $value) {
-				$fieldList .= 	$this->cObj->substituteMarkerArray (
+				
+				$typolinkConf['parameter'] = $value["pid"];
+				$wrappedSubpartContentArray['###LINK###'] = $this->cObj->typolinkWrap($typolinkConf); 
+				
+				$fieldList .= 	$this->cObj->substituteMarkerArrayCached (
 									$resultItem, 
 									array(
-										'###PAGE###' 			=> ($this->cObj->getTypoLink('',$value["pid"])),
+										'###PAGE_TITLE###' 		=> htmlspecialchars($value['title']),
+										'###PAGE_NAVTITLE###' 	=> htmlspecialchars($value['nav_title']),
 										'###COUNTER###' 		=> htmlspecialchars($value['totalCounter']),
-										'###DESCRIPTION###'		=> htmlspecialchars($value['description'])
-									)
+										'###PAGE_DESCRIPTION###'=> htmlspecialchars($value['description']),
+										'###TEXT1###'			=> $this->pi_getLL('TEXT1'),
+										'###TEXT2###'			=> $this->pi_getLL('TEXT2')
+									),
+									null,
+									$wrappedSubpartContentArray
 								);
+								
+				$output = $this->cObj->substituteSubpart($resultsList, '###ITEM###', $fieldList);
 			}
 		} // else [end]		
 		
-		$output = $this->cObj->substituteSubpart($resultsList, '###ITEM###', $fieldList);
+		
 		
 		return $output;
 	}
@@ -354,7 +365,7 @@ class tx_vdpopular_pi2 extends tslib_pibase {
 		return $value;
 	}
 
-} // main [end]
+}
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/vd_popular/pi2/class.tx_vdpopular_pi2.php'])	{
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/vd_popular/pi2/class.tx_vdpopular_pi2.php']);
