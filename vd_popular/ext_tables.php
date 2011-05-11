@@ -2,6 +2,9 @@
 if (!defined ('TYPO3_MODE')) {
 	die ('Access denied.');
 }
+
+t3lib_extMgm::allowTableOnStandardPages('tx_vdpopular_counter');
+
 $TCA['tx_vdpopular_counter'] = array (
 	'ctrl' => array (
 		'title'     => 'LLL:EXT:vd_popular/locallang_db.xml:tx_vdpopular_counter',		
