@@ -2,6 +2,8 @@
 # Place the counter on every pages. The number following "page" must not already be used on the site
 #page.1000 < plugin.tx_vdpopular_pi1
 
+# include js with counter
+page.includeJS.vd_popular_pi1 = EXT:vd_popular/res/vd_popular.js
 
 # pi2 : view
 plugin.tx_vdpopular_pi2 {	

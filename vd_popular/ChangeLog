@@ -1,3 +1,7 @@
+
+2013-04-26 Jean-Luc Thirot  <support.typo3@vd.ch>
+	* v 1.1.0 use eID to increment the counter and make the plugin pi1 a USER
+
 2010-10-20 Cedric Aellen  <support.typo3@vd.ch>
 
 	* initial code generated with kickstarter

@@ -102,6 +102,7 @@ class tx_vdpopular_pi2 extends tslib_pibase {
 
 		// all pages of the tree
 		$pages = $this->getTree($pidList);
+		
 		// all pages of the tree without excluded pages
 		$withoutExcludedPages = $this->withoutExcludedPages($pages);
 		// visited pages of the tree without excluded pages
@@ -134,6 +135,7 @@ class tx_vdpopular_pi2 extends tslib_pibase {
 		}
 
 		$startingPoints = explode(',',$pidList);
+		
 		foreach ($startingPoints as $startingPoint) {
 
 			//get startingpoint
@@ -142,7 +144,8 @@ class tx_vdpopular_pi2 extends tslib_pibase {
 			//get childrens
 			$tree = t3lib_div::makeInstance('t3lib_pageTree');
 			$tree->init(t3lib_BEfunc::deleteClause('pages'));
-			
+			$tree->makeHTML = false;
+
 			//add nav title
 			//$tree->addField('nav_title',1);
 

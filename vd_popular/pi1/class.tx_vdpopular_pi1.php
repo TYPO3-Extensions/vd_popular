@@ -52,25 +52,37 @@ class tx_vdpopular_pi1 extends tslib_pibase {
 	function main($content, $conf)	{
 
 		$this->conf = $conf;
-		$this->pi_USER_INT_obj = 1;	// Configuring so caching is not expected. This value means that no cHash params are ever set. We do this, because it's a USER_INT object!
+		$this->pi_USER_INT_obj = 0;	// Configuring so caching is not expected. This value means that no cHash params are ever set. We do this, because it's a USER_INT object!
 
-		$this->updateCounter();
+		// $this->updateCounter();
+
+		// ajax script
+		$content ='<script language="javascript">vd_popular_count('. $GLOBALS['TSFE']->id.'); </script>';
+
+		return $this->pi_wrapInBaseClass($content);
 	}
 	
 
 	/**
-	 * Visit counter per day
+	 * Visit counter per day use server side or ajax
 	 * have to be include by Typoscript in the template
 	 * 
-	 * 
+	 * @param int id of the page
+	 * @return void
 	 */
-	protected function updateCounter()
+	public function updateCounter($pageid = 0)
 	{
-
 		// uid current page
-		$pid = intval($GLOBALS['TSFE']->id);
-		$date = date(U);
-		
+		if($pageid === 0){
+			$pid = intval($GLOBALS['TSFE']->id);
+		}else{
+			$pid = $pageid;
+		}
+		if(intval($pid) > 0){
+		}else{
+			return;
+		}
+
 		// not exclude pages
 		if( in_array($pid, explode(',', $this->conf['excludePages']))==0 ) {
 
@@ -85,10 +97,9 @@ class tx_vdpopular_pi1 extends tslib_pibase {
 			);
 
 			if (!$GLOBALS['TYPO3_DB']->sql_affected_rows($res)) {
-
 				// insert into table tx_vdpopular_counter
 				$field_values = array(
-					'pid'			=>	$pid,
+					'pid'			=>	intval($pid),
 					'counter'		=> 	1,
 					'tstamp'		=>	date(U),
 					'crdate'		=>	date(U));
